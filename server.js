@@ -1,16 +1,62 @@
-/*console.log('salut');
+
+const  http = require('http');
+
+const fs = require('fs');
 
 
-const bonjour = (name)=>
+
+const server = http.createServer((req , res)=>
 {
-    console.log(`nti la3aba ${name}`);
-}
+    console.log(req.url, req.method  );
+    res.setHeader('Content-Type' , 'text/html');
 
+    let path = './views';
 
-bonjour('ayaya');
-bonjour('danger');*/
+    /*res.write('<p>Raul Gonzalez</p>');
+    res.write('<p>Raul is the best</p>');*/
+    
+      switch (req.url)
+      {
+          case  '/' : 
+                path += '/index.html';
+                res.statusCode= 200;
+                break ;
+           case '/about' : 
+                  path += '/about.html';
+                  res.statusCode = 200;
+                  break;
+            case '/aboutus' : 
+                  path += '/about.html';
+                  res.statusCode = 301;
+                  res.setHeader('Location' , '/about');
+                  res.end();
+                  break;
+           default : 
+                   path += '/404.html';
+                   res.statusCode=404;
+                   break;     
+      }
 
+     fs.readFile(path , (err , data)=>
+     {
+         path='./views';
+         if(err)
+         {
+             console.log(err);
+             res.end();
+         }
+         else
+         {
+             res.write(data);
+             res.write(data);
+             res.end(data);
+         }
+     })
 
-global.setTimeout(() => {
-    console.log('salim Tir LIl');
-}, 7000);
+   
+});
+
+server.listen(3000,'localhost',()=>
+{
+    console.log('listning for requests on port 3000');
+});
