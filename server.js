@@ -3,11 +3,24 @@ const  http = require('http');
 
 const fs = require('fs');
 
-
+const _ = require('lodash');
 
 const server = http.createServer((req , res)=>
 {
-    console.log(req.url, req.method  );
+   // console.log(req.url, req.method  );
+
+   //lodash
+   const num = _.random(0,10);
+   console.log(num);
+
+   const sayBonjour = _.once(()=>
+{
+    console.log('salim');
+})
+
+sayBonjour();
+sayBonjour();
+    
     res.setHeader('Content-Type' , 'text/html');
 
     let path = './views';
@@ -25,7 +38,7 @@ const server = http.createServer((req , res)=>
                   path += '/about.html';
                   res.statusCode = 200;
                   break;
-            case '/aboutus' : 
+            case '/aboutme' : 
                   path += '/about.html';
                   res.statusCode = 301;
                   res.setHeader('Location' , '/about');
