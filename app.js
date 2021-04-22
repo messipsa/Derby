@@ -4,6 +4,8 @@ const morgan = require('morgan');
 
 const mongoose = require('mongoose');
 
+const Blog = require('./models/blog');
+
 const app = express();
 
 // connect to mongo db
@@ -30,6 +32,52 @@ app.use(morgan('tiny'));
 
 app.use(express.static('public'));
 
+
+
+/*app.get('/add-blog' , (req,res)=>
+{
+  const blog = new Blog({
+      title : 'SSSA',
+      snippet : "Le Doyen des clubs Amazighs",
+      body : "Le SSSA basé à Sidi-Aich créé en 1928 est considéré comme le doyen des clubs Amazighs"
+  });
+  blog.save()
+  .then(result=>
+    {
+        res.send(result);
+    })
+    .catch(err=>{
+        console.log(err);
+    });
+});
+
+
+app.get('/all-blogs' ,(req , res)=>
+{
+    Blog.find()
+    .then(result=>
+        {
+            res.send(result);
+        })
+    .catch(err=>{
+        console.log(err);
+    });
+});
+
+
+app.get('/single-blog' , (req,res)=>
+{
+   Blog.findById('6081bd654376696df0e1d869')
+   .then(result=>
+    {
+        res.send(result);
+    })
+    .catch(err=>
+        {
+            console.log(err);
+        });
+});*/
+
 app.get('/' , (req , res)=>
 {
     //res.send('<p>Salim</p>');
@@ -37,14 +85,16 @@ app.get('/' , (req , res)=>
    
     // res.sendFile('./views/index.html',{root:__dirname});
    
-   const blogs = [
+  /* const blogs = [
        {title : "Jsk" , snippet : "LDC CAF 2010 était très proche pour la remporter sauf que le destin a choisi un autre sort .\n"+
        "La Jsk a deja éliminé le Club africain puis le Petro Atlético. Durant la phase de poules elle ecrase les deux Egyptiens Al Ahly et Al Ismailia ainsi que Hertland Fc avant de s'incliner face au Tp Mazembe."},
        {title : "FCB " , snippet : "sextuplé 2009"},
         {title : "Athletic Bilbao" , snippet : "Un Ogre Basque"},
    ];
 
-    res.render('index', {title : 'Home' , blogs});
+    res.render('index', {title : 'Home' , blogs});*/
+
+    res.redirect('/blogs');
 });
 
 
@@ -58,6 +108,20 @@ app.get('aboutus' , (req , res)=>
 {
     res.redirect('/about');
 });
+
+
+app.get('/blogs' , (req,res)=>
+{
+    Blog.find()
+    .then(result=>
+        {
+           res.render('index' , {title : 'All blogs' , blogs : result });
+        })
+        .catch(err=>
+            {
+                console.log(err);
+            });
+})
 
 app.get('/blogs/create' , (req , res)=>
 {
