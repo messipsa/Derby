@@ -32,7 +32,7 @@ app.use(morgan('tiny'));
 
 app.use(express.static('public'));
 
-
+app.use(express.urlencoded({ extended : true}));
 
 /*app.get('/add-blog' , (req,res)=>
 {
@@ -112,7 +112,7 @@ app.get('aboutus' , (req , res)=>
 
 app.get('/blogs' , (req,res)=>
 {
-    Blog.find()
+    Blog.find().sort({createdAt : -1})
     .then(result=>
         {
            res.render('index' , {title : 'All blogs' , blogs : result });
@@ -123,10 +123,45 @@ app.get('/blogs' , (req,res)=>
             });
 })
 
+app.post('/blogs' ,(req,res)=>
+{
+    const blog = Blog(req.body);
+    blog.save()
+    .then(result=>{
+        //res.send(result);
+        res.redirect('/blogs');
+    })
+    .catch(err=>
+        {
+            console.log(err);
+        });
+  
+  //      console.log(req.body);
+})
+
 app.get('/blogs/create' , (req , res)=>
 {
     res.render('create' , {title : 'Create a new Blog'});
 })
+
+
+
+app.get('/blogs/:id' , (req ,res)=>
+{
+    const id = req.params.id;
+    Blog.findById(id)
+    .then(result=>
+        {
+           res.render('details' , {blog : result, title : 'Blog details'});
+           console.log(id);
+        })
+    .catch(err=>
+        {
+            res.redirect('/');
+        })
+})
+
+
 
 app.use((req , res)=>{
     res.status(404).render('404' , {title : 'Not Found'});

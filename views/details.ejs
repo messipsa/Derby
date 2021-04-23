@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <%- include('../partials/head.ejs') %>
+    <%- include ('../partials/head.ejs')    %>
 
 <body>
-   
-    <%- include('../partials/nav.ejs') %>
 
-    <div class="not content">
-        OOPS page not found
-    </div>
+    <%-  include('../partials/nav.ejs') %>
+     <div class="details content">
+       <h2><%= blog.title %></h2>
 
-    <style>
+       <div class="content">
+           <p><%= blog.body %></p>
+       </div>
+       <a class="delete" data-doc="<% blog._id %>"></a>
+     </div>
+
+
+     <style>
 
         @import url('https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&display=swap');
                
@@ -132,6 +137,7 @@
           cursor: pointer;
         }
             </style>
+
     <%- include('../partials/footer.ejs') %>
 
 </body>

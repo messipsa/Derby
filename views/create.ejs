@@ -10,13 +10,13 @@
 
 
     <div class="create-blog">
-       <form>
+       <form action="/blogs" method="POST">
            <label for="title"> Blog Title</label>
-           <input type="text" id="title" required>
+           <input type="text" id="title" name="title" required>
            <label for="snippet"> Blog Snippet</label>
-           <input type="text" id="snippet" required>
+           <input type="text" id="snippet" name="snippet" required>
            <label for="body"> Blog Body</label>
-           <textarea id="body" required></textarea>
+           <textarea id="body" name="body" required></textarea>
            <button>Submit</button>
        </form>
     </div>
